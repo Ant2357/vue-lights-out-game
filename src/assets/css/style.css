@@ -1,0 +1,18 @@
+#board {
+  width: 350px;
+  height: 350px;
+  border-collapse: collapse;
+  background: #EAEDF0;
+}
+td {
+  border: solid 3px white;
+}
+.light-on {
+  background: #C50100;
+  animation: fade-in .3s;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}

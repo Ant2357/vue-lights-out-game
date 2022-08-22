@@ -1,0 +1,1 @@
+#board{width:350px;height:350px;border-collapse:collapse;background:#eaedf0}td{border:3px solid #fff}.light-on{background:#c50100;-webkit-animation:fade-in .3s;animation:fade-in .3s}@-webkit-keyframes fade-in{0%{opacity:0}to{opacity:1}}@keyframes fade-in{0%{opacity:0}to{opacity:1}}
