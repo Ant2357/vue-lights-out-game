@@ -6,7 +6,7 @@
           v-for="(cell, j) in row"
           :key="j"
           @click="clicked(j, i)"
-          :class="{'light-on':  state.cells[i][j] === -1}"
+          :class="{'light-on':  state.cells[i][j] === 1}"
         />
       </tr>
     </table>
@@ -23,11 +23,11 @@ export default defineComponent({
   components: {},
   setup() {
     const state = reactive({
-      cells: [...Array(5)].map(() => Array(5).fill(1))
+      cells: [...Array(5)].map(() => Array(5).fill(0))
     });
 
     const clicked = (x, y) => {
-      state.cells[y][x] *= -1;
+      state.cells[y][x] = Number(!state.cells[y][x]);
 
       const dir = [
         [0, -1],
@@ -44,7 +44,7 @@ export default defineComponent({
           continue;
         }
 
-        state.cells[ny][nx] *= -1;
+        state.cells[ny][nx] = Number(!state.cells[ny][nx]);
       }
     };
 
