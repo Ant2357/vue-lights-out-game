@@ -11,8 +11,14 @@
       </tr>
     </table>
     <button
-      @click="solve(state.cells)"
-    >Solve</button>
+      @click="state.hint = solve(state.cells)"
+    >ヒント</button>
+
+    <ul>
+      <li v-for="(v, i) in state.hint" :key="i">
+        y: {{ v.y + 1 }}, x: {{ v.x + 1}}
+      </li>
+    </ul>
   </div>
 
 </template>
@@ -26,7 +32,8 @@ export default defineComponent({
   components: {},
   setup() {
     const state = reactive({
-      cells: [...Array(5)].map(() => Array(5).fill(0))
+      cells: [...Array(5)].map(() => Array(5).fill(0)),
+      hint: []
     });
 
     const solve = (inputCells) => {
@@ -50,7 +57,6 @@ export default defineComponent({
             cells = clicked(cells, x, y);
 
             if (!isLightOn(cells)) {
-              console.log(res);
               return res;
             }
           }
@@ -83,13 +89,11 @@ export default defineComponent({
           cells = clicked(cells, x, 0);
 
           if (!isLightOn(cells)) {
-            console.log(res);
             return res; 
           }
         }
       }
 
-      console.log(res);
       return res;
     };
 
