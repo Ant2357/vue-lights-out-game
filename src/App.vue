@@ -5,7 +5,7 @@
         <td
           v-for="(cell, j) in row"
           :key="j"
-          @click="clicked(j, i)"
+          @click="state.cells = clicked(state.cells, j, i)"
           :class="{'light-on':  state.cells[i][j] === 1}"
         />
       </tr>
@@ -26,9 +26,10 @@ export default defineComponent({
       cells: [...Array(5)].map(() => Array(5).fill(0))
     });
 
-    const clicked = (x, y) => {
-      state.cells[y][x] = Number(!state.cells[y][x]);
+    const clicked = (inputCells, x, y) => {
+      let cells = JSON.parse(JSON.stringify(inputCells));
 
+      cells[y][x] = Number(!cells[y][x]);
       const dir = [
         [0, -1],
         [1, 0],
@@ -39,19 +40,21 @@ export default defineComponent({
         const nx = next[0] + x;
         const ny = next[1] + y;
 
-        if (nx < 0 || nx >= state.cells.length ||
-            ny < 0 || ny >= state.cells.length) {
+        if (nx < 0 || nx >= cells.length ||
+            ny < 0 || ny >= cells.length) {
           continue;
         }
 
-        state.cells[ny][nx] = Number(!state.cells[ny][nx]);
+        cells[ny][nx] = Number(!state.cells[ny][nx]);
       }
+
+      return cells;
     };
 
     for (let i = 0; i < 10; i++) {
       const x = Math.floor(Math.random() * state.cells.length);
       const y = Math.floor(Math.random() * state.cells.length);
-      clicked(x, y);
+      state.cells = clicked(state.cells, x, y);
     }
 
     return {
