@@ -5,16 +5,19 @@
         <td
           v-for="(cell, j) in row"
           :key="j"
-          @click="state.cells = clicked(state.cells, j, i)"
+          @click="clickBorad(j, i)"
           :class="{'light-on':  state.cells[i][j] === 1}"
         />
       </tr>
     </table>
+
     <button
-      @click="state.hint = solve(state.cells)"
+      @click="state.hint = solve(state.cells); state.isHintOn = !state.isHintOn"
     >ヒント</button>
 
-    <ul>
+    <h4 v-if="state.isHintOn">ヒント表示中</h4>
+
+    <ul v-if="state.isHintOn">
       <li v-for="(v, i) in state.hint" :key="i">
         y: {{ v.y + 1 }}, x: {{ v.x + 1}}
       </li>
@@ -33,7 +36,8 @@ export default defineComponent({
   setup() {
     const state = reactive({
       cells: [...Array(5)].map(() => Array(5).fill(0)),
-      hint: []
+      hint: [],
+      isHintOn: false
     });
 
     const solve = (inputCells) => {
@@ -122,6 +126,12 @@ export default defineComponent({
       return cells;
     };
 
+
+    const clickBorad = (x, y) => {
+      state.cells = clicked(state.cells, x, y)
+      state.hint = solve(state.cells);
+    }
+
     for (let i = 0; i < 10; i++) {
       const x = Math.floor(Math.random() * state.cells.length);
       const y = Math.floor(Math.random() * state.cells.length);
@@ -131,7 +141,8 @@ export default defineComponent({
     return {
       state,
       clicked,
-      solve
+      solve,
+      clickBorad
     };
   }
 });
